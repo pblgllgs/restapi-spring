@@ -6,6 +6,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 @Component
 public class UserDaoService {
@@ -21,18 +22,31 @@ public class UserDaoService {
         users.add(new User(++usersCount, "Jim", LocalDate.now().minusYears(15)));
     }
 
-    public List<User> findAll(){
+    public List<User> findAll() {
         return users;
     }
 
     public User findOne(int id) {
         Predicate<? super User> predicate = user -> user.getId().equals(id);
-        return users.stream().filter(predicate).findFirst().orElse(null);
+        User u = users.stream().filter(predicate).findFirst().orElse(null);
+        if (u == null){
+            throw new UserNotFoundException("id:"+id);
+        }
+        return u;
     }
 
-    public User save(User user){
+    public User save(User user) {
         user.setId(++usersCount);
         users.add(user);
         return user;
+    }
+
+    public void deleteById(int id) {
+        User user = findOne(id);
+        if (user == null){
+            throw new UserNotFoundException("id:"+id);
+        }
+        Predicate<? super User> predicate = u -> u.getId().equals(id);
+        users.removeIf(predicate);
     }
 }

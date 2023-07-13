@@ -23,11 +23,7 @@ public class UserController {
 
     @GetMapping("/users/{id}")
     public User retrieveUser(@PathVariable int id){
-        User user = service.findOne(id);
-        if (user == null){
-            throw new UserNotFoundException("id:"+id);
-        }
-        return user;
+        return service.findOne(id);
     }
 
     @PostMapping("/users")
@@ -38,5 +34,10 @@ public class UserController {
                 .buildAndExpand(userSaved.getId())
                 .toUri();
         return ResponseEntity.created(location).build();
+    }
+
+    @DeleteMapping("/users/{id}")
+    public void deleteUserById(@PathVariable int id){
+        service.deleteById(id);
     }
 }
