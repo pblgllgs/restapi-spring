@@ -1,13 +1,18 @@
 package com.pblgllgs.restapi.user;
 
+import jakarta.validation.constraints.Past;
+import jakarta.validation.constraints.Size;
+
 import java.time.LocalDate;
 
 public class User {
 
     private Integer id;
 
+    @Size(min = 2, message = "Name debe tener al menos 2 caracteres y maximo 10")
     private String name;
 
+    @Past(message = "La fecha debe estar en el pasado")
     private LocalDate birthDate;
 
     public User() {
