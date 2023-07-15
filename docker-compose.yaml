@@ -1,0 +1,18 @@
+version: '3'
+services:
+  mysql:
+    container_name: mysql_db_restapi
+    image: mysql:8.0.32
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: example
+      MYSQL_ROOT_USERNAME: root
+      MYSQL_DATABASE: socialmediadatabase
+    ports:
+      - "3306:3306"
+    volumes:
+      - data_db_socialmediadatabase:/var/lib/mysql
+volumes:
+  data_db_socialmediadatabase:
+    external: false
