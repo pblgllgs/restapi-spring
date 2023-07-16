@@ -13,6 +13,7 @@ services:
       - "3306:3306"
     volumes:
       - data_db_socialmediadatabase:/var/lib/mysql
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
 volumes:
   data_db_socialmediadatabase:
     external: false
